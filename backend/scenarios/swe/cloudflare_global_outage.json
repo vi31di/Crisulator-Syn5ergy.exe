@@ -1,0 +1,168 @@
+{
+    "id": "cloudflare_global_outage",
+    "role": "oncall_swe",
+    "title": "Cloudflare Global Outage",
+    "basedOn": "Cloudflare Outage 2022",
+    "severity": "SEV2",
+    "storyIntro": "You are the primary on-call SRE at Cloudflare. At 2:13 AM UTC, alerts begin firing across multiple regions. Customers are reporting failed requests, elevated latency, and complete downtime. Discord, Shopify, and Canva are beginning to fail globally. Your manager pings you: 'We need mitigation NOW. The internet is depending on us.'",
+    "brief": "A routine regex routing rule update has accidentally triggered 100% CPU saturation on our global edge nodes, dropping 50% of global HTTP web traffic.",
+    "objectives": [
+        "Identify root cause",
+        "Stabilize edge routers",
+        "Reduce latency",
+        "Restore traffic routing"
+    ],
+    "systemsImpacted": [
+        "Edge Routers",
+        "Traffic Gateway",
+        "DNS Layer",
+        "Global CDN"
+    ],
+    "initialLogs": [
+        "[CRITICAL] Router CPU usage exceeded 97%",
+        "[ERROR] BGP route propagation delayed",
+        "[WARNING] EU-West traffic instability detected",
+        "[ERROR] Packet retry storm initiated"
+    ],
+    "metrics": {
+        "cpu": 97,
+        "latency": 1200,
+        "errorRate": 64,
+        "requestsPerSecond": 320000
+    },
+    "agents": [
+        {
+            "name": "Marcus",
+            "role": "Engineering Manager",
+            "message": "We're getting customer escalations every minute."
+        },
+        {
+            "name": "Priya",
+            "role": "SRE Lead",
+            "message": "Traffic spikes started after latest config deployment."
+        }
+    ],
+    "timelineEvents": [
+        "Discord reports outage",
+        "Shopify checkout failures increase",
+        "Global packet loss spikes",
+        "Internal dashboards lag"
+    ],
+    "possibleActions": [
+        "Rollback latest config",
+        "Shift traffic away from EU-West",
+        "Throttle retries",
+        "Restart edge routers"
+    ],
+    "wrongActions": [
+        "Restart all routers simultaneously",
+        "Purge global CDN cache",
+        "Ignore BGP propagation warnings"
+    ],
+    "winCondition": "Traffic stabilizes below 5% error rate.",
+    "loseCondition": "Global outage exceeds 2 simulated hours.",
+    "sandbox": {
+        "language": "bash",
+        "template": "#!/bin/bash\n# Cloudflare Edge Router Configuration Rollback\n# Add commands below to stabilize the issue.\n\n# Current Metrics:\n# CPU Usage: ${cpu}%\n# Latency: ${latency}ms\n# Error Rate: ${errorRate}%\n\n# Expected Actions:\n# 1. Rollback to previous stable config\n# 2. Throttle retries to reduce CPU load\n# 3. Restart specific edge routers\n# 4. Rebalance traffic away from EU-West",
+        "expected_actions": [
+            "Rollback latest config to previous stable version",
+            "Throttle retry mechanism to reduce CPU load",
+            "Restart specific edge routers experiencing instability",
+            "Shift traffic away from EU-West region"
+        ]
+    },
+    "scoring": {
+        "winning_actions": [
+            "cf-router rollback --config v1.2.3",
+            "cf-traffic throttle --retries 10",
+            "cf-router restart --region EU-West",
+            "cf-traffic shift --region EU-West --target US-East"
+        ],
+        "bad_actions": [
+            "cf-router restart --all",
+            "cf-cache purge --global",
+            "cf-traffic ignore --bgp-warnings",
+            "cf-router disable --region EU-West"
+        ],
+        "critical_actions": [
+            "cf-router rollback --config v1.2.3",
+            "cf-traffic shift --region EU-West --target US-East"
+        ]
+    },
+    "phases": {
+        "detection": {
+            "ai_behavior_shift": "Marcus is calmly asking for updates, focusing on gathering initial data.",
+            "metric_multiplier": 1.0
+        },
+        "investigation": {
+            "ai_behavior_shift": "Marcus becomes more directive, pushing for quicker analysis.",
+            "metric_multiplier": 1.5
+        },
+        "escalation": {
+            "ai_behavior_shift": "Marcus escalates urgency, demanding immediate action reports every 5 minutes.",
+            "metric_multiplier": 2.0
+        },
+        "mitigation": {
+            "ai_behavior_shift": "Marcus shifts focus to coordinating efforts and ensuring team collaboration.",
+            "metric_multiplier": 0.75
+        },
+        "recovery": {
+            "ai_behavior_shift": "Marcus prioritizes customer communication and post-mortem readiness.",
+            "metric_multiplier": 0.5
+        }
+    },
+    "evolving_logs": [
+        "[CRITICAL] Router CPU usage now at 99% - thermal throttling engaged",
+        "[EMERGENCY] BGP route flapping detected across multiple regions",
+        "[FAILURE] EU-West routers beginning to drop all inbound traffic",
+        "[PANIC] Global CDN cache corruption detected - serving 500 errors"
+    ],
+    "mitigation_path": [
+        "cf-router rollback --config v1.2.3 --force",
+        "cf-traffic throttle --retries 5 --region EU-West",
+        "cf-router restart --region EU-West --batch-size 2",
+        "cf-traffic shift --region EU-West --target US-East --percentage 80"
+    ],
+    "incorrect_action_consequences": {
+        "cf-router restart --all": "Triggers cascading failures as all routers reboot simultaneously",
+        "cf-cache purge --global": "Forces all CDN nodes to refetch origin - worsens latency by 300%"
+    },
+    "stakeholder_personalities": {
+        "manager": {
+            "name": "Marcus",
+            "style": "Demands minute-by-minute updates but trusts technical expertise",
+            "stress_response": "Switches to ALL CAPS in chat during SEV2+"
+        },
+        "cto": {
+            "name": "Jocelyn",
+            "style": "Asks high-level architecture questions during outages",
+            "stress_response": "Joins bridge calls but remains eerily calm"
+        }
+    },
+    "scenario_specific_outputs": {
+        "cf-router status --region EU-West": "ROUTER_ID STATUS CPU TEMP\nedge-01 OFFLINE 102C\nedge-02 CRITICAL 98C\nedge-03 UNSTABLE 94C",
+        "cf-traffic stats --global": "REGION LATENCY ERROR_RATE\nEU-West 2400ms 89%\nUS-East 320ms 12%\nAPAC 1800ms 45%",
+        "cf-config diff v1.2.3 v1.2.4": "DIFF FOUND:\n- BGP timers reduced from 3000ms to 500ms\n- Retry limit increased from 3 to 15\n- Added aggressive ECMP rebalancing"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

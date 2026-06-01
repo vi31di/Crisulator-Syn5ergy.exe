@@ -1,0 +1,112 @@
+{
+    "id": "gitlab_database_deletion",
+    "role": "oncall_swe",
+    "title": "GitLab Database Deletion",
+    "basedOn": "GitLab Production DB Deletion 2017",
+    "severity": "SEV1",
+    "storyIntro": "You are a sysadmin. Trying to fix a replication lag issue, you mistakenly run `rm -rf` on the primary production database directory instead of the stale replica. 300GB of live data is gone.",
+    "brief": "A tired night-shift sysadmin ran a recursive remove command on the primary Postgres directory. Multi-terabyte production database backups are corrupt or out-of-date.",
+    "objectives": [
+        "Stop all background workers",
+        "Locate a valid backup",
+        "Restore from LVM snapshot or S3",
+        "Re-sync database"
+    ],
+    "systemsImpacted": [
+        "PostgreSQL Primary",
+        "GitLab Background Jobs",
+        "User Data"
+    ],
+    "initialLogs": [
+        "[CRITICAL] pg_stat_activity shows 0 rows",
+        "[ERROR] database 'gitlabhq_production' not found",
+        "[WARNING] Replication lag infinite"
+    ],
+    "metrics": {
+        "cpu": 10,
+        "latency": 9999,
+        "errorRate": 100,
+        "requestsPerSecond": 0
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "VP Engineering",
+            "message": "Where is the data? The entire platform is throwing 500s."
+        },
+        {
+            "name": "Teammate",
+            "role": "DBA",
+            "message": "Please tell me the LVM snapshot from 2 hours ago is intact."
+        }
+    ],
+    "timelineEvents": [
+        "Database deleted",
+        "Webhooks fail",
+        "Twitter explodes"
+    ],
+    "possibleActions": [
+        "Restore LVM snapshot",
+        "Stop background workers",
+        "Check S3 backups",
+        "Promote replica"
+    ],
+    "wrongActions": [
+        "Run pg_dump on empty DB",
+        "Restart application servers"
+    ],
+    "winCondition": "Database restored from the latest valid backup.",
+    "loseCondition": "Data permanently lost.",
+    "evolving_logs": [
+        "[CRITICAL] Disk usage at 0% - Data directory empty.",
+        "[ERROR] Background jobs failing to enqueue tasks.",
+        "[WARNING] Production API returning 500 errors for all endpoints.",
+        "[INFO] Customer support tickets spiking - multiple reports of outages."
+    ],
+    "mitigation_path": [
+        "sudo systemctl stop gitlab-background-jobs",
+        "lvcreate --size 300G --name snap gitlab_vg",
+        "aws s3 cp s3://gitlab-backups/latest_backup.sql /var/lib/postgresql/backup.sql",
+        "psql -U gitlab -d gitlabhq_production -f /var/lib/postgresql/backup.sql"
+    ],
+    "incorrect_action_consequences": {
+        "pg_restore --clean": "Active tables truncated before restore, resulting in partial data loss.",
+        "reboot": "Missing database files caused PostgreSQL to fail startup, extending downtime."
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "role": "VP Engineering",
+            "style": "Urgent, focuses on customer impact, demands hourly updates"
+        },
+        "CTO": {
+            "role": "Chief Technical Officer",
+            "style": "Technical but calm, asks detailed questions about recovery procedure"
+        }
+    },
+    "scenario_specific_outputs": {
+        "ls -l /var/lib/postgresql/14/main": "total 0",
+        "pg_isready -U gitlab": "/tmp: connection refused /var/run/postgresql: connection refused",
+        "df -h /var/lib/postgresql": "Filesystem Size Used Avail Use% Mounted on\n/dev/sda1 500G 0B 500G 0% /var/lib/postgresql"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

@@ -1,0 +1,157 @@
+{
+    "id": "boeing_737max_crisis",
+    "role": "comms",
+    "title": "Boeing 737 MAX Crisis",
+    "basedOn": "Boeing 737 MAX Groundings 2019",
+    "service": "Global Fleet",
+    "severity": "SEV0",
+    "storyIntro": "You are the VP of Communications. Following a second fatal crash of the new 737 MAX, international aviation authorities are grounding the fleet. The company initially defended the plane's safety. You must handle the escalating crisis as evidence points to MCAS software flaws.",
+    "brief": "Leaked internal emails reveal critical MCAS flight software warnings were bypassed. With flight groundings looming and public fury rising, you must navigate Boeing's survival.",
+    "objectives": [
+        "Ground the fleet proactively",
+        "Address the MCAS flaw",
+        "Express profound sympathy",
+        "Coordinate with FAA"
+    ],
+    "systemsImpacted": [
+        "Global Aviation Fleet",
+        "Brand Trust",
+        "Stock Price"
+    ],
+    "initialLogs": [
+        "[CRITICAL] Second fatal crash confirmed",
+        "[ERROR] China and EU ground the fleet",
+        "[WARNING] Whistleblowers leaking internal emails"
+    ],
+    "metrics": {
+        "cpu": 5,
+        "latency": 0,
+        "errorRate": 100,
+        "requestsPerSecond": 20000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "CEO",
+            "message": "Should we recommend the FAA ground the fleet? It will cost billions."
+        },
+        {
+            "name": "Teammate",
+            "role": "Safety Officer",
+            "message": "We cannot let another plane fly until MCAS is fixed."
+        }
+    ],
+    "timelineEvents": [
+        "Second crash",
+        "Global authorities ground planes",
+        "FAA finally grounds planes"
+    ],
+    "possibleActions": [
+        "Recommend FAA ground the fleet",
+        "Acknowledge MCAS role",
+        "Establish victim compensation fund",
+        "Commit to full software redesign"
+    ],
+    "wrongActions": [
+        "Blame pilot error",
+        "Insist the plane is perfectly safe to fly"
+    ],
+    "winCondition": "Fleet grounded and transparent investigation supported.",
+    "loseCondition": "Continued denial destroys public trust in the manufacturer entirely.",
+    "sandbox": {
+        "language": "javascript",
+        "template": "function handleCrisis(scenario) {\n  // TODO: Implement crisis management logic\n}",
+        "expected_actions": [
+            "Implement logic to ground the fleet proactively",
+            "Add code to acknowledge the MCAS software flaw",
+            "Include functionality to express sympathy for the victims",
+            "Integrate FAA coordination logic"
+        ]
+    },
+    "scoring": {
+        "winning_actions": [
+            "faa.ground_fleet()",
+            "boeing.acknowledge_mcas_flaw()",
+            "compensation.init_fund()",
+            "boeing.commit_to_redesign()"
+        ],
+        "bad_actions": [
+            "boeing.blame_pilot_error()",
+            "boeing.declare_safe_to_fly()",
+            "faa.delay_action()",
+            "compensation.deny_payouts()"
+        ],
+        "critical_actions": [
+            "faa.ground_fleet()",
+            "boeing.recall_all_737_max()"
+        ]
+    },
+    "phases": {
+        "detection": {
+            "ai_behavior_shift": "Manager skeptical, cautious about reactions",
+            "metric_multiplier": 1.0
+        },
+        "investigation": {
+            "ai_behavior_shift": "Safety Officer pushes urgency, Manager reluctant",
+            "metric_multiplier": 1.5
+        },
+        "escalation": {
+            "ai_behavior_shift": "Both roles acknowledge severity, but disagree on actions",
+            "metric_multiplier": 2.0
+        },
+        "mitigation": {
+            "ai_behavior_shift": "Manager aligns with Safety Officer, takes decisive action",
+            "metric_multiplier": 1.2
+        },
+        "recovery": {
+            "ai_behavior_shift": "Both roles focus on restoration and transparency",
+            "metric_multiplier": 0.8
+        }
+    },
+    "evolving_logs": [
+        "[CRITICAL] Whistleblowers release internal documents showing MCAS warnings were ignored",
+        "[ERROR] Stock price drops by 20% in a single day",
+        "[WARNING] FAA announces an emergency meeting",
+        "[CRITICAL] Public protests call for CEO resignation"
+    ],
+    "mitigation_path": [
+        "boeing.ground_fleet()",
+        "boeing.acknowledge_mcas_flaw()",
+        "compensation.init_fund()",
+        "boeing.commit_to_redesign()"
+    ],
+    "incorrect_action_consequences": {
+        "boeing.blame_pilot_error()": "Public outrage escalates, leading to widespread boycotts.",
+        "boeing.declare_safe_to_fly()": "Another crash occurs, resulting in lawsuits and government intervention."
+    },
+    "stakeholder_personalities": {
+        "Manager": "Initially cautious and defensive, prioritizing financial impact over immediate action.",
+        "Safety Officer": "Urgent and proactive, prioritizing public safety and transparency."
+    },
+    "scenario_specific_outputs": {
+        "faa.check_fleet_status()": "GROUNDED: 737 MAX aircraft grounded worldwide.",
+        "boeing.check_software_version()": "VERSION: MCAS v1.0 - Known Flaw.",
+        "stock.get_price()": "PRICE: $200.00 (-20%)"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

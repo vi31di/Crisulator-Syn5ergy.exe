@@ -1,0 +1,57 @@
+schema_version: "1.0.0"
+type: "archetype"
+id: "retry_storm"
+
+metadata:
+  estimated_duration: 25m
+  complexity: high
+  recommended_roles:
+    - swe
+  emotional_profile:
+    - dread
+    - false_recovery
+    - political_pressure
+
+# Semantic Topology - NO hardcoded vendor names
+topology:
+  trigger_service: "primary_database"
+  affected_services:
+    - "auth_api"
+    - "worker_queue"
+
+# Pacing and Emotional Rhythm
+pacing:
+  detection:
+    metric_multiplier: 1.0
+    stress_baseline: low
+    duration_ticks: 5
+  escalation:
+    metric_multiplier: 1.6
+    stress_baseline: high
+    duration_ticks: 8
+  false_recovery: # The critical psychological beat
+    metric_multiplier: 0.5
+    stress_baseline: low
+    duration_ticks: 3
+  catastrophe:
+    metric_multiplier: 2.5
+    stress_baseline: extreme
+    duration_ticks: 5
+  mitigation:
+    metric_multiplier: 0.2
+    stress_baseline: medium
+    duration_ticks: 4
+
+# Mechanics and Gates
+intent_prerequisites:
+  "restart": ["throttle"]
+  "failover": ["block_traffic"]
+
+mitigation_path:
+  - "throttle"
+  - "restart"
+  - "resolve"
+
+incorrect_action_consequences:
+  "failover": "Cascading saturation of secondary systems"
+  "drop connections": "Total user session invalidation"

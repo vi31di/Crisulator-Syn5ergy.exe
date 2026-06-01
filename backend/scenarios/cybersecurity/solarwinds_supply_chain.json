@@ -1,0 +1,164 @@
+{
+    "id": "solarwinds_supply_chain",
+    "role": "security",
+    "title": "SolarWinds Supply-Chain Attack",
+    "basedOn": "SolarWinds Sunburst 2020",
+    "severity": "SEV0",
+    "storyIntro": "You are an incident responder for a government agency. A routine check reveals your network management software is communicating with a malicious C2 server. A highly sophisticated state-sponsored actor has poisoned your software updates.",
+    "brief": "A rogue state-sponsored actor has injected a malicious backdoor into our core platform update pipeline. Active telemetry indicates systematic data exfiltration from primary AD vaults.",
+    "objectives": [
+        "Identify the malicious dll",
+        "Isolate infected Orion servers",
+        "Analyze C2 traffic",
+        "Initiate incident response protocol"
+    ],
+    "systemsImpacted": [
+        "Orion Network Management",
+        "Active Directory",
+        "Email Servers"
+    ],
+    "initialLogs": [
+        "[WARNING] Unusual DNS query to avsvmcloud.com",
+        "[CRITICAL] SolarWinds.Orion.Core.BusinessLayer.dll hash mismatch. Injected DLL payload: IyBTdW5idXJzdCBCYWNrZG9vciBDb21waWxlciBJbmplY3Rvcg0KZnVuY3Rpb24gSW5qZWN0LUJhY2tkb29yIHsNCiAgaWYgKFRlc3QtUGF0aCAiLlxzb3VyY2VcY29yZS5jcyIpIHsNCiAgICBBZGQtQ29udGVudCAiLlxzb3VyY2VcY29yZS5jcyIgIlxuLy8gU3VuYnVyc3QgQmFja2Rvb3JcbnB1YmxpYyBzdGF0aWMgdm9pZCBFeGZpbHRyYXRlKCkgeyBHZXQtQUQtVmF1bHQtVG9rZW5zKCk7IH0iDQogIH0NCn0=",
+        "[ERROR] Unauthorized SAML token generation"
+    ],
+    "metrics": {
+        "cpu": 30,
+        "latency": 50,
+        "errorRate": 2,
+        "requestsPerSecond": 100
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "Director of Security",
+            "message": "If this is a supply chain attack, we need to unplug the affected servers now."
+        },
+        {
+            "name": "Teammate",
+            "role": "Reverse Engineer",
+            "message": "The malicious code is hiding inside the legitimate DLL. It's Sunburst."
+        }
+    ],
+    "timelineEvents": [
+        "C2 beacon detected",
+        "Golden SAML attack executed",
+        "Email exfiltration begins"
+    ],
+    "possibleActions": [
+        "Isolate Orion servers",
+        "Block C2 domains",
+        "Revoke active SAML tokens",
+        "Rebuild AD trust"
+    ],
+    "wrongActions": [
+        "Just restart the Orion service",
+        "Delete all logs to save space"
+    ],
+    "winCondition": "Infected servers isolated and C2 blocked.",
+    "loseCondition": "Adversary gains full domain persistence.",
+    "sandbox": {
+        "language": "bash",
+        "template": "# Investigate logs and isolate Orion servers\n\n# Step 1: Analyze DNS queries\ngrep 'avsvmcloud.com' /var/log/dns.log\n\n# Step 2: Check DLL integrity\nsha256sum /opt/SolarWinds/Orion/SolarWinds.Orion.Core.BusinessLayer.dll\n\n# Step 3: Block C2 traffic\niptables -A OUTPUT -d avsvmcloud.com -j DROP\n\n# Step 4: Isolate Orion servers\nexport SERVER_IP=\"192.168.1.100\"\niptables -A INPUT -s $SERVER_IP -j DROP",
+        "expected_actions": [
+            "Block C2 domains using iptables",
+            "Isolate infected servers with iptables",
+            "Verify DLL integrity with sha256sum",
+            "Analyze DNS logs for C2 traffic"
+        ]
+    },
+    "scoring": {
+        "winning_actions": [
+            "iptables -A OUTPUT -d avsvmcloud.com -j DROP",
+            "iptables -A INPUT -s 192.168.1.100 -j DROP",
+            "sha256sum /opt/SolarWinds/Orion/SolarWinds.Orion.Core.BusinessLayer.dll",
+            "revoke-saml-tokens --all"
+        ],
+        "bad_actions": [
+            "service solarwinds restart",
+            "rm /var/log/dns.log",
+            "iptables -F",
+            "touch /opt/SolarWinds/Orion/SolarWinds.Orion.Core.BusinessLayer.dll"
+        ],
+        "critical_actions": [
+            "iptables -A OUTPUT -d avsvmcloud.com -j DROP",
+            "revoke-saml-tokens --all"
+        ]
+    },
+    "phases": {
+        "detection": {
+            "ai_behavior_shift": "Manager demands immediate analysis of suspicious DNS traffic.",
+            "metric_multiplier": 1.0
+        },
+        "investigation": {
+            "ai_behavior_shift": "Manager pushes for a forensic analysis of the Orion DLL.",
+            "metric_multiplier": 1.5
+        },
+        "escalation": {
+            "ai_behavior_shift": "Manager urgently requests isolating all Orion servers to prevent further spread.",
+            "metric_multiplier": 2.0
+        },
+        "mitigation": {
+            "ai_behavior_shift": "Manager focuses on blocking C2 traffic and verifying AD trust.",
+            "metric_multiplier": 0.5
+        },
+        "recovery": {
+            "ai_behavior_shift": "Manager emphasizes rebuilding secure systems and preventing recurrence.",
+            "metric_multiplier": 0.75
+        }
+    },
+    "evolving_logs": [
+        "[CRITICAL] Multiple Orion servers beaconing to avsvmcloud.com",
+        "[ALERT] Unauthorized SAML token used to access email servers",
+        "[EMERGENCY] Active Directory replication requests from unknown IPs",
+        "[FAILURE] Orion servers failing integrity checks with new malicious hashes"
+    ],
+    "mitigation_path": [
+        "iptables -A OUTPUT -d avsvmcloud.com -j DROP",
+        "revoke-saml-tokens --all",
+        "isolate-server 192.168.1.100 --reason 'Sunburst compromise'",
+        "forensic-acquire /opt/SolarWinds/Orion/SolarWinds.Orion.Core.BusinessLayer.dll --output /evidence/"
+    ],
+    "incorrect_action_consequences": {
+        "service solarwinds restart": "Triggers secondary payload activation in compromised DLL.",
+        "iptables -F": "Removes all firewall rules, allowing unfettered C2 communication."
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "urgent",
+            "trait": "Prioritizes containment over forensic preservation",
+            "communication_pattern": "Direct commands with escalating frequency"
+        },
+        "CTO": {
+            "style": "strategic",
+            "trait": "Focuses on long-term supply chain hardening",
+            "communication_pattern": "Asks probing questions about root causes"
+        }
+    },
+    "scenario_specific_outputs": {
+        "grep 'avsvmcloud.com' /var/log/dns.log": "2023-11-15T04:32:18.451Z QUERY avsvmcloud.com A 192.168.1.100\n2023-11-15T04:33:22.117Z QUERY avsvmcloud.com A 192.168.1.101",
+        "sha256sum /opt/SolarWinds/Orion/SolarWinds.Orion.Core.BusinessLayer.dll": "325bbd47d07d4e7e3ef7c4d8b9e3d3b7a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d  SolarWinds.Orion.Core.BusinessLayer.dll",
+        "netstat -tulnp | grep Orion": "tcp6   0   0 :::17778   :::*   LISTEN   1234/OrionModuleEngine\ntcp6   0   0 :::17779   :::*   LISTEN   1234/OrionModuleEngine"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

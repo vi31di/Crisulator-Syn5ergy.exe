@@ -1,0 +1,81 @@
+{
+    "id": "target_retail_breach",
+    "role": "security",
+    "title": "Target POS Malware Breach",
+    "basedOn": "Target Data Breach 2013",
+    "severity": "SEV1",
+    "storyIntro": "You are a security analyst for a massive retail chain. Attackers compromised an HVAC vendor's credentials to gain access to the corporate network, then moved laterally to the Point of Sale (POS) systems, installing memory-scraping malware.",
+    "brief": "A point-of-sale terminal network compromise has leaked customer transaction data. Intruders are actively routing scraped track-2 credentials to external command servers.",
+    "objectives": [
+        "Detect lateral movement",
+        "Identify the POS malware",
+        "Isolate the POS network",
+        "Remediate vendor access"
+    ],
+    "systemsImpacted": [
+        "Point of Sale Terminals",
+        "Vendor Portal",
+        "Internal Network"
+    ],
+    "initialLogs": [
+        "[WARNING] Unusual login from Fazio Mechanical",
+        "[CRITICAL] BlackPOS malware signature detected in memory. Memory scraper payload: IyBQT1MgVHJhY2stMiBDcmVkaXQgQ2FyZCBNZW1vcnkgU2NyYXBlcg0KJHByb2Nlc3NlcyA9IEdldC1Qcm9jZXNzOw0KZm9yZWFjaCAoJHAgaW4gJHByb2Nlc3Nlcykgew0KICBpZiAoJHAuTmFtZSAtbGlrZSAiKnBvcyoiKSB7DQogICAgW1N5c3RlbS5JTy5GaWxlXTo6V3JpdGVBbGxUZXh0KCIkZW52OlRFTVAvY2FyZHMudHh0IiwgIlNjcmFwZWQ6IDQxMTEtWFhYWC1YWFhYLTExMTE7IEVYUDogMTIvMjg7IENWVjogOTk5Iik7DQogIH0NCn0=",
+        "[ERROR] Unauthorized FTP transfer to external IP"
+    ],
+    "metrics": {
+        "cpu": 40,
+        "latency": 100,
+        "errorRate": 5,
+        "requestsPerSecond": 5000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "Compliance Officer",
+            "message": "Are credit card numbers being scraped? PCI compliance is on the line."
+        },
+        {
+            "name": "Teammate",
+            "role": "SOC Analyst",
+            "message": "I see memory scraping happening on registers in 500 stores."
+        }
+    ],
+    "timelineEvents": [
+        "Vendor portal compromised",
+        "Malware deployed to POS",
+        "Track data exfiltrated"
+    ],
+    "possibleActions": [
+        "Isolate POS subnets",
+        "Revoke vendor credentials",
+        "Deploy EDR rules to block BlackPOS",
+        "Analyze FTP dumps"
+    ],
+    "wrongActions": [
+        "Ignore vendor portal alerts",
+        "Shut down all physical stores"
+    ],
+    "winCondition": "Malware contained and vendor access revoked.",
+    "loseCondition": "40 million credit card numbers exfiltrated.",
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

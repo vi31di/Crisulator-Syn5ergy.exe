@@ -1,0 +1,109 @@
+{
+    "schema_version": "1.0.0",
+    "id": "payments_retry_storm",
+    "title": "Payments API Retry Storm",
+    "severity": "SEV0",
+    "service": "postgres-statefulset",
+    "description": "Infinite retry recursion in payments-service PR #381 has triggered an aggressive retry storm, exhausting the PostgreSQL connection pool.",
+    "brief": "Payment retries are overwhelming the database after a failed deployment.",
+    "root_cause": "An infinite retry recursion bug in PR #381 caused upstream gateway threads to mass-retry connections to the database, saturating pg_stat slots.",
+    "initial_logs": [
+        "WARNING: postgres-statefulset: Connection pool nearing capacity (85/100).",
+        "ERROR: redis-cache: Unable to allocate memory for sorted set operation.",
+        "WARNING: auth-deployment: Increased latency observed in token validation service."
+    ],
+    "evolving_logs": [
+        "ERROR: postgres-statefulset: Connection pool exhausted (100/100). Retries failing.",
+        "CRITICAL: redis-cache: OOMKilled - Container terminated due to memory pressure.",
+        "ERROR: redis-cache: Pod Evicted due to NodeNotReady - Insufficient resources.",
+        "ERROR: auth-deployment: CrashLoopBackOff - Token service failing to initialize.",
+        "CRITICAL: postgres-statefulset: High query latency impacting upstream services.",
+        "WARNING: redis-cache: Persistent Redis cache failure causing upstream retries."
+    ],
+    "phases": {
+        "detection": {
+            "metric_multiplier": 1.0,
+            "stress_baseline": "low",
+            "duration_ticks": 5
+        },
+        "escalation": {
+            "metric_multiplier": 1.6,
+            "stress_baseline": "high",
+            "duration_ticks": 8
+        },
+        "false_recovery": {
+            "metric_multiplier": 0.5,
+            "stress_baseline": "low",
+            "duration_ticks": 3
+        },
+        "catastrophe": {
+            "metric_multiplier": 2.5,
+            "stress_baseline": "extreme",
+            "duration_ticks": 5
+        },
+        "mitigation": {
+            "metric_multiplier": 0.2,
+            "stress_baseline": "medium",
+            "duration_ticks": 4
+        }
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "throttle"
+        ],
+        "failover": [
+            "block_traffic"
+        ]
+    },
+    "mitigation_path": [
+        "throttle",
+        "restart",
+        "resolve"
+    ],
+    "incorrect_action_consequences": {
+        "failover": "Cascading saturation of secondary systems",
+        "drop connections": "Total user session invalidation"
+    },
+    "scenario_specific_outputs": {
+        "postgres-statefulset": {
+            "saturation": "FATAL: remaining connection slots are reserved for non-replication superuser connections\nLOG:  could not accept new connection: Too many open files\n"
+        },
+        "auth-deployment": {
+            "timeout": "Error: connect ETIMEDOUT 10.42.0.12:5432\nat TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)\n"
+        },
+        "redis-cache": {
+            "exhaustion": "OOM command not allowed when used memory > 'maxmemory'.\n"
+        }
+    },
+    "sandbox": {
+        "language": "bash",
+        "template": "# Kubernetes Recovery Console\nkubectl get pods -n production\n"
+    },
+    "stakeholder_personalities": {
+        "manager": {
+            "style": "aggressive",
+            "focus": "revenue loss and executive ETAs"
+        },
+        "cto": {
+            "style": "analytical",
+            "focus": "circuit breakers and cascading failures"
+        },
+        "pr": {
+            "style": "defensive",
+            "focus": "customer complaints on Twitter"
+        }
+    },
+    "modifiers": {
+        "latent_instability": 85,
+        "tool_confidence": {
+            "datadog": 0.6
+        },
+        "ui_fatigue_penalty": 0.8
+    },
+    "metrics": {
+        "error_rate": 80,
+        "p95_latency": 4500,
+        "db_connections": 10,
+        "cpu": 90
+    }
+}

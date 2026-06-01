@@ -1,0 +1,26 @@
+[
+  {
+    "scenario_id": "aws_s3_outage",
+    "role": "swe",
+    "score": 95,
+    "time_taken": 600,
+    "username": "test_operator",
+    "timestamp": 1779438154.411483
+  },
+  {
+    "scenario_id": "aws_s3_outage",
+    "role": "swe",
+    "score": 95,
+    "time_taken": 600,
+    "username": "test_operator",
+    "timestamp": 1779438704.3784072
+  },
+  {
+    "scenario_id": "aws_s3_outage",
+    "role": "swe",
+    "score": 95,
+    "time_taken": 600,
+    "username": "test_operator",
+    "timestamp": 1779475420.7868683
+  }
+]

@@ -1,0 +1,33 @@
+schema_version: "1.0.0"
+type: "flavorpack"
+id: "kubernetes"
+
+vendor: "Kubernetes/Docker"
+
+semantic_mappings:
+  primary_database: "postgres-statefulset"
+  auth_api: "auth-deployment"
+  worker_queue: "redis-cache"
+
+operational_jargon:
+  - "CrashLoopBackOff"
+  - "OOMKilled"
+  - "Evicted"
+  - "NodeNotReady"
+
+realistic_stack_traces:
+  postgres-statefulset:
+    saturation: |
+      FATAL: remaining connection slots are reserved for non-replication superuser connections
+      LOG:  could not accept new connection: Too many open files
+  auth-deployment:
+    timeout: |
+      Error: connect ETIMEDOUT 10.42.0.12:5432
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+  redis-cache:
+    exhaustion: |
+      OOM command not allowed when used memory > 'maxmemory'.
+
+sandbox_template: |
+  # Kubernetes Recovery Console
+  kubectl get pods -n production

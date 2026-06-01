@@ -1,0 +1,164 @@
+{
+    "id": "pepsi_ad_backlash",
+    "role": "comms",
+    "title": "Pepsi Ad Backlash",
+    "basedOn": "Pepsi Kendall Jenner Ad 2017",
+    "severity": "SEV2",
+    "storyIntro": "You are the PR Director. A new commercial featuring Kendall Jenner handing a soda to a police officer at a protest has just aired. Twitter is tearing it apart for trivializing serious social justice movements. You need to manage the fallout.",
+    "brief": "PepsiCo is facing national outrage after releasing a tone-deaf commercial co-opting civil rights protests. Brands and minority groups are calling for a total boycott.",
+    "objectives": [
+        "Assess social sentiment",
+        "Pull the advertisement",
+        "Draft a public apology",
+        "Manage internal comms"
+    ],
+    "systemsImpacted": [
+        "Social Media Channels",
+        "Brand Reputation",
+        "Marketing Dept"
+    ],
+    "initialLogs": [
+        "[WARNING] Negative sentiment spike on Twitter: 90%",
+        "[CRITICAL] NYT publishes scathing op-ed",
+        "[ERROR] Influencers cancelling partnerships"
+    ],
+    "metrics": {
+        "cpu": 10,
+        "latency": 0,
+        "errorRate": 90,
+        "requestsPerSecond": 50000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "CMO",
+            "message": "We thought this ad would be unifying. What a disaster. What do we do?"
+        },
+        {
+            "name": "Teammate",
+            "role": "Social Media Manager",
+            "message": "We need to pull the video off YouTube right now."
+        }
+    ],
+    "timelineEvents": [
+        "Ad airs on TV",
+        "Twitter outrage peaks",
+        "Celebrities mock the ad"
+    ],
+    "possibleActions": [
+        "Pull the advertisement",
+        "Issue an immediate apology",
+        "Defend the ad's message",
+        "Blame the agency"
+    ],
+    "wrongActions": [
+        "Defend the ad's message",
+        "Ignore the backlash"
+    ],
+    "winCondition": "Ad pulled and sincere apology issued.",
+    "loseCondition": "Brand permanently damaged by defensive statements.",
+    "sandbox": {
+        "language": "bash",
+        "template": "#!/bin/bash\n# Crisis Management Script for Pepsi Ad Backlash\n\n# TODO: Add commands to manage the fallout\n",
+        "expected_actions": [
+            "Remove the video from all platforms",
+            "Draft and publish a public apology",
+            "Monitor social media sentiment",
+            "Communicate internally with stakeholders"
+        ]
+    },
+    "scoring": {
+        "winning_actions": [
+            "pull_ad --platform youtube --platform twitter",
+            "issue_apology --tone sincere --platform twitter --platform website",
+            "monitor_sentiment --platform twitter --interval 10m",
+            "notify_stakeholders --message \"Ad pulled and apology issued.\""
+        ],
+        "bad_actions": [
+            "defend_ad --message \"We stand by our ad.\"",
+            "ignore_backlash --duration 1h",
+            "blame_agency --message \"The agency misunderstood the brief.\"",
+            "delay_response --duration 24h"
+        ],
+        "critical_actions": [
+            "pull_ad --platform youtube --platform twitter",
+            "issue_apology --tone sincere --platform twitter --platform website"
+        ]
+    },
+    "phases": {
+        "detection": {
+            "ai_behavior_shift": "The Manager is concerned but unsure of severity.",
+            "metric_multiplier": 1.0
+        },
+        "investigation": {
+            "ai_behavior_shift": "The Manager becomes increasingly worried as reports come in.",
+            "metric_multiplier": 1.5
+        },
+        "escalation": {
+            "ai_behavior_shift": "The Manager demands immediate action as influencers withdraw.",
+            "metric_multiplier": 2.0
+        },
+        "mitigation": {
+            "ai_behavior_shift": "The Manager focuses on minimizing damage and restoring trust.",
+            "metric_multiplier": 0.7
+        },
+        "recovery": {
+            "ai_behavior_shift": "The Manager shifts to long-term reputation repair.",
+            "metric_multiplier": 0.5
+        }
+    },
+    "evolving_logs": [
+        "[CRITICAL] Major news outlets begin covering the backlash with negative headlines.",
+        "[WARNING] Protest hashtags targeting Pepsi trend globally with 1M+ tweets.",
+        "[ERROR] Stock price drops 5% in pre-market trading due to brand concerns.",
+        "[CRITICAL] Internal memo leaks showing marketing team ignored early warnings."
+    ],
+    "mitigation_path": [
+        "crisis-cli pull_ad --platform youtube --platform twitter --immediate",
+        "crisis-cli draft_apology --tone humble --acknowledge_misstep --platform all",
+        "crisis-cli notify_stakeholders --urgency critical --message \"Full retraction in progress\"",
+        "crisis-cli deploy_sentiment_monitors --platform twitter --refresh_rate 2m"
+    ],
+    "incorrect_action_consequences": {
+        "crisis-cli defend_ad --double_down": "Ad becomes protest symbol, 200% sentiment spike",
+        "crisis-cli fire_agency --publicly": "Creative partners leak damning internal documents"
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "reactive",
+            "communication": "panicked",
+            "priority": "short_term_damage_control"
+        },
+        "CTO": {
+            "style": "analytical",
+            "communication": "data_driven",
+            "priority": "sentiment_metrics"
+        }
+    },
+    "scenario_specific_outputs": {
+        "crisis-cli check_sentiment --platform twitter": "NEGATIVE: 94% | MOCKERY: 63% | VOLUME: 12,342 tweets/min",
+        "crisis-cli get_stakeholder_status": "ALERT: CMO demanding hourly updates | LEGAL reviewing liabilities",
+        "crisis-cli ad_impact_report": "ESTIMATED REACH: 38M views | PARTNER DROPS: 7 confirmed"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

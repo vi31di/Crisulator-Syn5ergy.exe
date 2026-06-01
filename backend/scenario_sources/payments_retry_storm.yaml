@@ -1,0 +1,27 @@
+schema_version: "1.0.0"
+type: "scenario_source"
+id: "payments_retry_storm"
+title: "Payments API Retry Storm"
+severity: "SEV0"
+
+archetype: "retry_storm"
+flavorpack: "kubernetes"
+
+root_cause: "A transient network blip caused upstream services to mass-retry connections to the Payments API, exhausting the Postgres connection pool and causing OOM panics in Redis."
+
+stakeholder_profile:
+  manager: 
+    style: "aggressive"
+    focus: "revenue loss and executive ETAs"
+  cto:
+    style: "analytical"
+    focus: "circuit breakers and cascading failures"
+  pr:
+    style: "defensive"
+    focus: "customer complaints on Twitter"
+
+modifiers:
+  latent_instability: 85
+  tool_confidence:
+    datadog: 0.6
+  ui_fatigue_penalty: 0.8

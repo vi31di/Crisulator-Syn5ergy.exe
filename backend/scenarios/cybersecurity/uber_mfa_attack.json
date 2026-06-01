@@ -1,0 +1,114 @@
+{
+    "id": "uber_mfa_attack",
+    "role": "security",
+    "title": "Uber MFA Fatigue Attack",
+    "basedOn": "Uber Lapsus$ Breach 2022",
+    "severity": "SEV1",
+    "storyIntro": "An attacker is spamming a corporate contractor with persistent Duo MFA push notifications while messaging them on WhatsApp pretending to be IT Support. The contractor eventually approves the login, granting the attacker full VPN session foothold and access to internal jump hosts.",
+    "brief": "An active intruder is spamming a contractor with Duo MFA push alerts. Forensics indicates a VPN gateway breach from an anomalous host IP.",
+    "objectives": [
+        "Identify the compromised contractor account",
+        "Revoke active VPN sessions from the foreign host IP",
+        "Enforce strict MFA number-matching security policies",
+        "Rotate compromised PAM credentials"
+    ],
+    "systemsImpacted": [
+        "VPN Gateway Gateway",
+        "Thycotic PAM Database",
+        "Active Directory Credentials",
+        "Slack Workspace"
+    ],
+    "initialLogs": [
+        "[WARNING] 52 duplicate MFA push notifications sent to contractor.user",
+        "[CRITICAL] Successful VPN gateway login established from host IP 185.143.223.41. Powershell payload: JHN5cyA9IE5ldy1PYmplY3QgU3lzdGVtLk5ldC5XZWJDbGllbnQ7ICRzeXMuRG93bmxvYWRGaWxlKCdodHRwOi8vMTg1LjE0My4yMjMuNDEvcGF5bG9hZC5leGUnLCAnJGVudjpURU1QL3N5cy5leGUnKTsgU3RhcnQtUHJvY2VzcygnJGVudjpURU1QL3N5cy5leGUnKSAtV2luZG93U3R5bGUgSGlkZGVuOw==",
+        "[ERROR] Thycotic PAM API logs show unencrypted credential access requests"
+    ],
+    "metrics": {
+        "active_threats": 3,
+        "compromised_accounts": 1,
+        "lateral_movement": 15,
+        "data_exposure_risk": 45,
+        "mfa_spam_attempts": 52,
+        "endpoint_integrity": 95
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "Head of IT",
+            "message": "We have an active breach. Someone is posting offensive screenshots on Slack using a provisioned 'IT_SUPPORT' admin account!"
+        },
+        {
+            "name": "Teammate",
+            "role": "IAM Security Lead",
+            "message": "They got into the PAM secrets manager. We must rotate the admin credentials and terminate the contractor VPN tunnel immediately."
+        }
+    ],
+    "timelineEvents": [
+        "MFA push accepted",
+        "VPN tunnel established",
+        "Credential vault dumps"
+    ],
+    "possibleActions": [
+        "Revoke contractor VPN access",
+        "Enforce MFA number matching",
+        "Rotate PAM admin credentials",
+        "Lock down AD access"
+    ],
+    "wrongActions": [
+        "Instruct user to ignore pushes",
+        "Restart VPN server prematurely"
+    ],
+    "winCondition": "Contractor VPN session terminated, Duo matching policy enforced, and admin credentials rotated.",
+    "loseCondition": "Attacker successfully exfiltrates the complete corporate customer database.",
+    "evolving_logs": [
+        "[CRITICAL] AWS CloudTrail shows unauthorized API console access from IP 185.143.223.41.",
+        "[ALERT] Abnormal PowerShell execution tracing detected on jump box admin hosts.",
+        "[EMERGENCY] Thycotic API telemetry flags active database dump sequences.",
+        "[WARNING] Compromised contractor credentials attempted to access secondary subnet routing."
+    ],
+    "mitigation_path": [
+        "vpn-session-manager terminate --user contractor.user@uber.com",
+        "duo-policy update --policy-id mfa_default --enforce-number-match true",
+        "thycotic-cli credentials rotate --id pam_admin_creds --length 32 --special-chars"
+    ],
+    "incorrect_action_consequences": {
+        "iptables -F": "All firewall isolation rules flushed. Attacker gains immediate lateral access to secondary production subnets.",
+        "thycotic-cli credentials list --unencrypted": "All active password logs printed directly to an attacker-monitored shell."
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "panicked",
+            "focus": "Slack alerts and brand damage"
+        },
+        "Teammate": {
+            "style": "forensic",
+            "focus": "VPN session logs and Duo matching policies"
+        }
+    },
+    "scenario_specific_outputs": {
+        "vpn-session-manager terminate --user contractor.user@uber.com": {
+            "output": "VPN SESSION TERMINATED: Tunnel closed for user contractor.user@uber.com.\nTELEMETRY: Active connections: 0. IP 185.143.223.41 blocked.",
+            "advisor": "[ALERT] IAM Lead: Excellent, contractor VPN connection has been killed. The attacker's live terminal session is severed."
+        },
+        "duo-policy update --policy-id mfa_default --enforce-number-match true": {
+            "output": "DUO MFA POLICY UPDATE: Enforced number-matching requirement on all push notifications.\nSTATUS: Active across production-gateway nodes.",
+            "advisor": "[ALERT] IAM Lead: Number-matching policy is live. The contractor cannot blindly click 'Approve' anymore without matching numbers."
+        },
+        "thycotic-cli credentials rotate --id pam_admin_creds --length 32 --special-chars": {
+            "output": "THYCOTIC PAM SECURITY: Rotation completed.\nSTATUS: Secret 'pam_admin_creds' updated to 32-character high-entropy hash.",
+            "advisor": "[ALERT] IT Director: Excellent rotation. The attacker's access keys to the PAM manager have been completely invalidated."
+        },
+        "vpn-session-manager list-active": {
+            "output": "ACTIVE CONNECTIONS SUMMARY:\nUSER                IP              SUBNET           DURATION\ncontractor.user   185.143.223.41   10.120.4.15      00:47:22\nadmin.sec         10.42.0.12       10.120.2.11      02:14:05",
+            "advisor": "Identity analysis: Session 'contractor.user' is anomalous. IP originates from external region."
+        },
+        "duo-auth logs --user contractor.user": {
+            "output": "DUO TELEMETRY TIMELINE FOR contractor.user:\n14:22:47 | Push Sent | Denied\n14:22:49 | Push Sent | Denied\n14:22:51 | Push Sent | Denied\n14:23:01 | Push Sent | Approved (User approved lock bypass)",
+            "advisor": "MFA fatigue trace confirmed: Contractor approved push after continuous prompts."
+        }
+    },
+    "intent_prerequisites": {
+        "restart": [],
+        "rollback": []
+    }
+}

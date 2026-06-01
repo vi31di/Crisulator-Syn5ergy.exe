@@ -1,0 +1,162 @@
+{
+    "id": "samsung_note7_recall",
+    "role": "comms",
+    "title": "Samsung Note 7 Recall",
+    "basedOn": "Samsung Galaxy Note 7 Battery Fires 2016",
+    "severity": "SEV1",
+    "storyIntro": "You are the crisis comms lead. Reports are coming in globally that the new flagship phone's battery is exploding. Airlines are banning the device. You need to coordinate a global recall and protect the brand's safety reputation.",
+    "brief": "Thermal runaway battery defects are causing the flagship Note 7 to combust in passenger hands. The FAA has banned all devices, creating a multi-billion dollar recall emergency.",
+    "objectives": [
+        "Acknowledge the issue",
+        "Halt sales",
+        "Coordinate global recall",
+        "Communicate with airlines"
+    ],
+    "systemsImpacted": [
+        "Global Supply Chain",
+        "Brand Reputation",
+        "Customer Support"
+    ],
+    "initialLogs": [
+        "[CRITICAL] FAA bans device on flights",
+        "[ERROR] 35 confirmed battery explosions",
+        "[WARNING] Carrier partners halting sales"
+    ],
+    "metrics": {
+        "cpu": 50,
+        "latency": 0,
+        "errorRate": 50,
+        "requestsPerSecond": 10000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "President of Mobile",
+            "message": "We need to recall all 2.5 million units. How do we announce this?"
+        },
+        {
+            "name": "Teammate",
+            "role": "Product Marketing",
+            "message": "We should offer immediate exchanges or refunds."
+        }
+    ],
+    "timelineEvents": [
+        "First explosion reported",
+        "FAA bans phone",
+        "Global recall announced"
+    ],
+    "possibleActions": [
+        "Announce global recall",
+        "Halt all sales",
+        "Offer full refunds",
+        "Ship 'safe' replacements quickly"
+    ],
+    "wrongActions": [
+        "Deny the battery issues",
+        "Blame user chargers"
+    ],
+    "winCondition": "Recall managed transparently and safety prioritized.",
+    "loseCondition": "A 'safe' replacement device explodes, destroying trust entirely.",
+    "sandbox": {
+        "language": "bash",
+        "template": "#!/bin/bash\n# Samsung Note7 Recall Crisis Management Script\n# Current Status:\n# - Battery explosions reported: 35\n# - Airlines banning device: FAA + 3 others\n# - Units sold: 2.5M\n\n# Available commands:\n# recall_announce()  # Draft global recall notice\n# sales_halt()       # Stop all sales channels\n# refund_options()   # Configure refund/exchange paths\n# airline_comms()    # Contact aviation authorities",
+        "expected_actions": [
+            "Execute sales_halt immediately",
+            "Draft recall_announce with clear safety language",
+            "Configure full refund_options including return shipping",
+            "Contact airline_comms with official safety notice"
+        ]
+    },
+    "scoring": {
+        "winning_actions": [
+            "recall_announce --global --priority=SAFETY",
+            "sales_halt --all-regions --permanent",
+            "refund_options --full --include-shipping",
+            "airline_comms --alert=FAA --documentation=recall_notice.pdf"
+        ],
+        "bad_actions": [
+            "sales_halt --region=US --temporary",
+            "recall_announce --quiet --no-media",
+            "refund_options --store-credit-only",
+            "airline_comms --delay=48h"
+        ],
+        "critical_actions": [
+            "recall_announce --global --priority=SAFETY --immediate",
+            "sales_halt --all-regions --permanent --force"
+        ]
+    },
+    "phases": {
+        "detection": {
+            "ai_behavior_shift": "Manager requests preliminary data but downplays severity",
+            "metric_multiplier": 0.8
+        },
+        "investigation": {
+            "ai_behavior_shift": "Manager demands hourly updates but resists full recall",
+            "metric_multiplier": 1.2
+        },
+        "escalation": {
+            "ai_behavior_shift": "Manager panics as airlines ban devices, approves partial measures",
+            "metric_multiplier": 2.0
+        },
+        "mitigation": {
+            "ai_behavior_shift": "Manager fully supports global recall but worries about costs",
+            "metric_multiplier": 0.5
+        },
+        "recovery": {
+            "ai_behavior_shift": "Manager focuses on replacement program and brand rehabilitation",
+            "metric_multiplier": 0.3
+        }
+    },
+    "evolving_logs": [
+        "[CRITICAL] Consumer reports of burns from Note7 explosions double overnight",
+        "[EMERGENCY] Three major international airlines join FAA ban",
+        "[FAILURE] Initial 'safe' replacement units also showing overheating",
+        "[ALERT] Media outlets running footage of burning devices"
+    ],
+    "mitigation_path": [
+        "sales_halt --all-regions --permanent --force",
+        "recall_announce --global --priority=SAFETY --immediate --language=urgent",
+        "refund_options --full --include-shipping --no-restrictions",
+        "airline_comms --alert=global --documentation=recall_notice.pdf --priority=1"
+    ],
+    "incorrect_action_consequences": {
+        "recall_announce --region=US-only --quiet": "International outrage as non-US customers remain at risk, triggering regulatory investigations",
+        "refund_options --store-credit-only": "Mass consumer lawsuits and viral social media backlash over forced brand loyalty"
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "Initially resistant to full recall due to financial concerns, becomes decisive under public pressure",
+            "communication": "Demands data-heavy briefings but emotionally reacts to visual evidence"
+        },
+        "CTO": {
+            "style": "Technical perfectionist who delayed initial response to verify failure modes",
+            "communication": "Overwhelms teams with battery chemistry details during crisis meetings"
+        }
+    },
+    "scenario_specific_outputs": {
+        "recall_status --summary": "RECALL PROGRESS:\nUnits recalled: 1.2M/2.5M\nActive fires reported: 12 new (47 total)\nAirlines compliant: 8/12 major carriers",
+        "supply_chain --impact": "GLOBAL IMPACT:\nWarehouses at 107% capacity\nLogistics partners overloaded\nReplacement stock: 0.4M units available",
+        "social_media --sentiment": "TRENDING HASHTAGS:\n#Note7Fire (1.2M posts)\n#SamsungFail (800K posts)\nBrand sentiment: 12% positive (was 89%)"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

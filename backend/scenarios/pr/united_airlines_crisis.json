@@ -1,0 +1,81 @@
+{
+    "id": "united_airlines_crisis",
+    "role": "comms",
+    "title": "United Airlines Passenger Removal",
+    "basedOn": "United Airlines Flight 3411 Incident 2017",
+    "severity": "SEV0",
+    "storyIntro": "You are the VP of Communications. A video of a passenger being violently dragged off an overbooked flight has gone viral. The CEO just released a statement apologizing for 're-accommodating' the passenger, which has enraged the public further.",
+    "brief": "A video of airport security violently dragging a concussed passenger from an overbooked flight has reached 100M views. Stock is in free-fall as boycott hashtags trend globally.",
+    "objectives": [
+        "Contain the PR disaster",
+        "Draft a better apology",
+        "Change company policies",
+        "Address the viral video"
+    ],
+    "systemsImpacted": [
+        "Brand Reputation",
+        "Stock Price",
+        "Customer Service Lines"
+    ],
+    "initialLogs": [
+        "[CRITICAL] Video reaches 100 million views",
+        "[ERROR] Stock drops 4%",
+        "[WARNING] Boycott trending globally"
+    ],
+    "metrics": {
+        "cpu": 20,
+        "latency": 0,
+        "errorRate": 100,
+        "requestsPerSecond": 100000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "CEO",
+            "message": "My statement made it worse, didn't it? Fix this."
+        },
+        {
+            "name": "Teammate",
+            "role": "Legal Advisor",
+            "message": "We need to promise a full review of our overbooking policies."
+        }
+    ],
+    "timelineEvents": [
+        "Video goes viral",
+        "CEO 're-accommodate' statement",
+        "Stock price plunges"
+    ],
+    "possibleActions": [
+        "Issue profound apology",
+        "Announce policy change on overbooking",
+        "Fire the CEO immediately",
+        "Blame aviation police"
+    ],
+    "wrongActions": [
+        "Stand by the 're-accommodate' statement",
+        "Blame the passenger"
+    ],
+    "winCondition": "Meaningful apology issued and policy changed.",
+    "loseCondition": "Stock price crashes and CEO is forced to resign.",
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

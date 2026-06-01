@@ -1,0 +1,118 @@
+{
+    "id": "facebook_bgp_outage",
+    "role": "oncall_swe",
+    "title": "Facebook BGP Outage",
+    "basedOn": "Facebook Outage 2021",
+    "severity": "SEV0",
+    "storyIntro": "You are the lead network engineer. At 15:40 UTC, all internal and external DNS routes for your company's domain vanish from the global routing table. WhatsApp, Instagram, and Facebook are completely down. Employees are locked out of offices because physical badge readers rely on the network. You must restore BGP routes before billions of users are permanently impacted.",
+    "brief": "A core router configuration command has severed primary DNS peering routes. Global autonomous system paths are unmapped, locking teams out of physical datacenters.",
+    "objectives": [
+        "Identify BGP misconfiguration",
+        "Establish out-of-band access",
+        "Restore backbone router configs",
+        "Propagate DNS globally"
+    ],
+    "systemsImpacted": [
+        "Global BGP Routes",
+        "Internal DNS",
+        "Physical Access Systems",
+        "CDN Edge"
+    ],
+    "initialLogs": [
+        "[CRITICAL] BGP route withdrawal detected",
+        "[ERROR] DNS resolution failed for fb.com",
+        "[WARNING] Badge reader API timeout",
+        "[ERROR] No route to host: backbone-router-01"
+    ],
+    "metrics": {
+        "cpu": 5,
+        "latency": 0,
+        "errorRate": 100,
+        "requestsPerSecond": 0
+    },
+    "agents": [
+        {
+            "name": "Sarah",
+            "role": "CTO",
+            "message": "We are completely off the internet. I need a status on OOB access immediately."
+        },
+        {
+            "name": "Dave",
+            "role": "Network Operations",
+            "message": "I can't even get into the building to manually reset the routers!"
+        }
+    ],
+    "timelineEvents": [
+        "Global DNS resolution drops to zero",
+        "Stock price begins falling",
+        "Employees unable to access offices",
+        "Twitter trends #FacebookDown"
+    ],
+    "possibleActions": [
+        "Establish out-of-band serial connection",
+        "Revert automated BGP withdrawal script",
+        "Dispatch engineers to data center",
+        "Update authoritative DNS"
+    ],
+    "wrongActions": [
+        "Restart front-end web servers",
+        "Flush local DNS cache",
+        "Run standard deployment pipeline"
+    ],
+    "winCondition": "BGP routes successfully readvertised and propagated.",
+    "loseCondition": "Outage exceeds 6 simulated hours.",
+    "evolving_logs": [
+        "[CRITICAL] BGP withdrawal script detected in automation logs",
+        "[ERROR] Out-of-band management interface unreachable",
+        "[WARNING] Backup DNS servers offline due to cascade failure",
+        "[CRITICAL] Stock price drops 15% as outage continues"
+    ],
+    "mitigation_path": [
+        "ssh oob-admin@backup-router --port=2222",
+        "revert --file=/scripts/bgp/automated_withdrawal.sh --commit=last_known_good",
+        "reboot --force backbone-router-core-01",
+        "bgp advertise --routes=/backup_routes/all_routes.json"
+    ],
+    "incorrect_action_consequences": {
+        "bgp flush": "All remaining BGP routes purged, extending outage globally.",
+        "force_reboot --all": "Critical configuration lost during improper shutdown sequence."
+    },
+    "stakeholder_personalities": {
+        "CTO": {
+            "tone": "urgent",
+            "behavior": "demands frequent updates every 5 minutes",
+            "focus": "public perception and stock impact"
+        },
+        "Manager": {
+            "tone": "methodical",
+            "behavior": "coordinates team movements and resource allocation",
+            "focus": "technical resolution timeline"
+        }
+    },
+    "scenario_specific_outputs": {
+        "bgp status": "Neighbor Address AS State\n192.0.2.1 64512 Idle\n192.0.2.2 64512 Idle\n192.0.2.3 64512 Idle",
+        "dig facebook.com": ";; connection timed out; no servers could be reached",
+        "ping facebook.com": "ping: cannot resolve facebook.com: Unknown host"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

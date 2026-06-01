@@ -1,0 +1,102 @@
+{
+    "id": "ghc_crisis",
+    "role": "comms",
+    "title": "GHC Keynote & Diversity Scrutiny",
+    "basedOn": "Grace Hopper Celebration Brand Representation 2026",
+    "service": "Global Corporate Communications",
+    "severity": "SEV0",
+    "storyIntro": "During this morning's keynote panel at the Grace Hopper Celebration, your company's executive speaker made a controversial statement regarding recruitment priorities and meritocracy that went viral. Attendees are accusing your company of diversity washing, booth coordinators are feeling intense pressure from protestors, and technical journalists from TechCrunch and Bloomberg are lining up for comment. You must manage aggressive press questions, handle internal stakeholder pressures, and protect the brand's integrity.",
+    "brief": "A controversial corporate statement on diversity and meritocracy made during the GHC keynote has gone viral on social media, triggering attendee backlash and interview cancellations.",
+    "objectives": [
+        "Formulate a nuanced and constructive diversity commitment statement",
+        "Address aggressive tech journalism inquiries and interviews",
+        "Reassure company booth coordinators and resolve candidate pipeline drops",
+        "Manage conflicting directives from the CEO (defensive) vs Legal Counsel (silent)"
+    ],
+    "systemsImpacted": [
+        "Corporate Brand Integrity",
+        "Recruitment Pipeline",
+        "Attendee & Sponsor Relations"
+    ],
+    "initialLogs": [
+        "[ALERT] Keynote clip 'Meritocracy vs Diversity Priorities' goes viral with 1.2M views on X/Twitter.",
+        "[WARNING] Three candidates have canceled their scheduled software engineering interviews at our recruitment booth.",
+        "[INFO] Technical reporters from TechCrunch and Bloomberg are requesting immediate executive comments."
+    ],
+    "metrics": {
+        "cpu": 0,
+        "latency": 0,
+        "errorRate": 100,
+        "requestsPerSecond": 45000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "CEO",
+            "message": "We need to stand firm. Reframe the speech as a defense of high engineering standards. Apologizing will look weak to our investors."
+        },
+        {
+            "name": "Teammate",
+            "role": "PR Lead",
+            "message": "The crowd at the convention center is extremely upset, and our own booth staff feel completely abandoned. We must express a transparent apology and outline concrete diversity progress."
+        }
+    ],
+    "timelineEvents": [
+        "Keynote statement goes viral",
+        "Booth recruiters report high friction",
+        "Journalists request formal comment"
+    ],
+    "possibleActions": [
+        "Acknowledge the statement and apologize transparently",
+        "Defend executive comments citing strict meritocracy standards",
+        "Announce a third-party SRE recruitment pipeline audit",
+        "Provide direct coaching guidelines for booth coordinators"
+    ],
+    "wrongActions": [
+        "Threaten legal action against attendees recording the speech",
+        "Lock down the booth and refuse all media communication"
+    ],
+    "winCondition": "Express transparent, constructive apology and outline concrete recruitment audits, restoring stakeholder trust.",
+    "loseCondition": "Defending the statement or locking down communications triggers mass sponsor boycotts, executive walkouts, and complete recruitment pipeline destruction.",
+    "evolving_logs": [
+        "[CRITICAL] Viral social threads under #BoycottGHC reach 3.8M impressions.",
+        "[ERROR] Two high-priority university partnerships freeze candidate referrals pending our formal statement.",
+        "[WARNING] PR representatives report that two junior booth staff have requested to step down due to aggressive pushback from attendees.",
+        "[ALERT] Bloomberg technical editor publishes a critical op-ed on corporate diversity sincerity."
+    ],
+    "mitigation_path": [
+        "pr_intent: Apologize and Reassure",
+        "pr_intent: Launch Diversity Audit",
+        "pr_intent: Coach Booth Staff"
+    ],
+    "incorrect_action_consequences": {
+        "pr_intent: Defend meritocracy": "Outrage surges exponentially; attendees stage peaceful sit-ins near our recruitment booth.",
+        "pr_intent: Threats": "Legal threats spark intense Streisand effect, leading to full-scale boycott from major university sponsors."
+    },
+    "stakeholder_personalities": {
+        "CEO": "Obsessed with keeping investors happy and defending executive hierarchy.",
+        "PR Lead": "Advocating for genuine dialogue, transparency, and safety for booth representatives."
+    },
+    "scenario_specific_outputs": {
+        "pr_intent: Apologize and Reassure": {
+            "journalist": "Associated Press: The transparent apology has been noted by attendees. Can you share when the independent diversity audit will begin?",
+            "cto": "[BOARD UPDATE] Chief HR Officer: Admitting fault has immediately cooled down the protest, but the CEO is asking why we did not consult legal counsel first."
+        },
+        "pr_intent: Launch Diversity Audit": {
+            "journalist": "Bloomberg: Sponsors express cautious optimism regarding the independent recruitment audit. Protests at the booth are dispersing.",
+            "cto": "[ALERT] Legal Counsel: The SRE audit satisfies sponsor demands, but ensures our internal hiring logs will be subject to thorough third-party evaluation."
+        },
+        "pr_intent: Coach Booth Staff": {
+            "journalist": "TechCrunch: Booth staff are now distributing clear, aligned communication guides. Scrutiny continues but the atmosphere has stabilized.",
+            "cto": "[CHAT] PR Coordinator: Excellent. The booth staff finally feel supported and have successfully resumed candidate interviews."
+        },
+        "pr_intent: Defend meritocracy": {
+            "journalist": "Reuters: Tech community reacts with intense anger to your defense of the keynote. Protesters have gathered in front of the corporate booth.",
+            "cto": "[PANIC] CEO: The statement was parsed as doubling-down. We are getting roasted in internal Slack channels now!"
+        }
+    },
+    "intent_prerequisites": {
+        "restart": [],
+        "rollback": []
+    }
+}

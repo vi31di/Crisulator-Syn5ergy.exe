@@ -1,0 +1,120 @@
+{
+    "id": "knight_capital_disaster",
+    "role": "oncall_swe",
+    "title": "Knight Capital Deployment Disaster",
+    "basedOn": "Knight Capital Trading Glitch 2012",
+    "severity": "SEV0",
+    "storyIntro": "A botched deployment leaves old, dead code on one of the 8 trading servers. It awakens a defunct 'Power Peg' test program that starts buying high and selling low at lightning speed. You are losing $10 million per minute.",
+    "brief": "A legacy code deployment has revived a dead automated market-maker routing engine, triggering high-frequency buy orders that are burning $10M per minute.",
+    "objectives": [
+        "Identify the rogue server",
+        "Kill the trading process",
+        "Roll back the deployment",
+        "Isolate the network"
+    ],
+    "systemsImpacted": [
+        "High Frequency Trading Engine",
+        "Order Management System",
+        "Market Data Feed"
+    ],
+    "initialLogs": [
+        "[WARNING] Unusually high trading volume",
+        "[ERROR] PnL drop anomaly detected",
+        "[CRITICAL] Power Peg routine active on SMARS6"
+    ],
+    "metrics": {
+        "cpu": 99,
+        "latency": 10,
+        "errorRate": 0,
+        "requestsPerSecond": 50000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "CEO",
+            "message": "We are bleeding capital. Shut it down now!"
+        },
+        {
+            "name": "Teammate",
+            "role": "Lead Dev",
+            "message": "I think the old flag wasn't removed on server 8."
+        }
+    ],
+    "timelineEvents": [
+        "Erratic trades hit NYSE",
+        "Capital reserves drop by 50%",
+        "Regulators call"
+    ],
+    "possibleActions": [
+        "Kill process on SMARS6",
+        "Revert routing tables",
+        "Shut down all trading",
+        "Deploy hotfix"
+    ],
+    "wrongActions": [
+        "Deploy new code to SMARS6",
+        "Ignore the PnL alerts"
+    ],
+    "winCondition": "Rogue process killed and network isolated before bankruptcy.",
+    "loseCondition": "Company goes bankrupt.",
+    "evolving_logs": [
+        "[CRITICAL] Power Peg executing 1000+ trades/sec",
+        "[ALERT] SMARS6 showing 100% CPU utilization",
+        "[PANIC] Risk management circuit breakers triggered",
+        "[EMERGENCY] $460M loss detected, SEC investigating"
+    ],
+    "mitigation_path": [
+        "ssh smars6 'killall -9 power_peg_test'",
+        "iptables -A INPUT -p tcp --dport 9090 -j DROP -s smars6",
+        "git revert HEAD~1 --no-edit && ./deploy.sh --rollback",
+        "notify_sec --case-id=KC-2012-08-01 --severity=market-disruption"
+    ],
+    "incorrect_action_consequences": {
+        "rm -rf /opt/trading_engine/": "Erased all trading algorithms and historical data",
+        "service network restart": "Caused 15-minute complete exchange connectivity loss"
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "combat_commander",
+            "traits": [
+                "demands hourly updates",
+                "escalates to regulators immediately",
+                "prioritizes PR over technical details"
+            ]
+        },
+        "CTO": {
+            "style": "forensic_engineer",
+            "traits": [
+                "requests packet captures",
+                "demands RCA before fixes",
+                "blames QA processes"
+            ]
+        }
+    },
+    "scenario_specific_outputs": {
+        "top -n1": "PID USER COMMAND\n7821 root power_peg_test 99.9%\n7822 root power_peg_test 99.8%",
+        "netstat -tulpn": "tcp 0 0 0.0.0.0:9090 0.0.0.0:* LISTEN 7821/power_peg_test",
+        "grep PowerPeg /var/log/smars6": "08:02:33 WARN PowerPeg legacy flag=ENABLED\n08:02:34 CRIT PowerPeg activated via SMARS routing table"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

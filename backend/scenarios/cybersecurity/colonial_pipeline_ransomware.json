@@ -1,0 +1,113 @@
+{
+    "id": "colonial_pipeline_ransomware",
+    "role": "security",
+    "title": "Colonial Pipeline Ransomware",
+    "basedOn": "Colonial Pipeline DarkSide Attack 2021",
+    "severity": "SEV1",
+    "storyIntro": "DarkSide ransomware has successfully compromised an inactive VPN gateway profile, infiltrating the corporate billing network. Systems are actively being encrypted. To prevent lateral movement to the pipeline's Physical Operational Technology (OT) SCADA systems, you must immediately isolate network segments, disable the compromised profile, and make critical shutdown decisions.",
+    "brief": "Ransomware infection active on the IT domain. Forensic analysts trace entry to an inactive legacy VPN gateway. SCADA network exposure risk is critical.",
+    "objectives": [
+        "Isolate the IT network segment from the physical OT network",
+        "Disable the compromised inactive legacy VPN profile",
+        "Initiate safety-audited pipeline shutdown sequence",
+        "Restore billing databases from isolated offline backups"
+    ],
+    "systemsImpacted": [
+        "IT Billing Systems",
+        "VPN Gateway Profile",
+        "SCADA Pipeline OT Subnet"
+    ],
+    "initialLogs": [
+        "[CRITICAL] Mass encryption event detected on Active Directory domain controllers. Legacy ransomware payload: JGMgPSBOZXctT2JqZWN0IFN5c3RlbS5OZXQuU29ja2V0cy5UQ1BDbGllbnQoJzkzLjE4NC4yMTYuMzQnLDQ0NDQpOyAkcyA9ICRjLkdldFN0cmVhbSgpOyB3aGlsZSgkYy5Db25uZWN0ZWQpIHsgLyogRGFya1NpZGUgUmFuc29td2FyZSBCYWNrZG9vciAqLyB9",
+        "[WARNING] Legacy VPN account 'vpn_darkside' established connection from Moscow IP 93.184.216.34.",
+        "[ERROR] Main corporate billing database unreachable. Lockscreen files replaced with darkside.txt."
+    ],
+    "metrics": {
+        "active_threats": 5,
+        "compromised_accounts": 1,
+        "lateral_movement": 68,
+        "data_exposure_risk": 90,
+        "mfa_spam_attempts": 0,
+        "endpoint_integrity": 12
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "Operations Director",
+            "message": "We have no visibility into delivery invoicing! Do we halt physical pipeline pumping? Shaking up the entire East Coast supply is a massive economic decision."
+        },
+        {
+            "name": "Teammate",
+            "role": "Network Defense Lead",
+            "message": "We must sever the IT/OT network bridge immediately! If DarkSide gets into the SCADA network, we could face actual physical pipeline failures."
+        }
+    ],
+    "timelineEvents": [
+        "DarkSide infiltration via VPN",
+        "IT Billing servers encrypted",
+        "SCADA lateral scans active"
+    ],
+    "possibleActions": [
+        "Isolate IT and OT segments",
+        "Disable compromised vpn_darkside account",
+        "Initiate emergency pipeline shutdown",
+        "Restore from verify pre_attack_0421"
+    ],
+    "wrongActions": [
+        "Activate secondary network bridge",
+        "Ignore SCADA lateral scans"
+    ],
+    "winCondition": "Complete isolation between IT/OT networks achieved, vpn_darkside disabled, and pipeline safely shut down before infection spreads.",
+    "loseCondition": "Failing to isolate IT/OT networks allows ransomware to compromise SCADA telemetry, resulting in physical pipeline failures.",
+    "evolving_logs": [
+        "[CRITICAL] Encryption process spreading to active secondary business subnets.",
+        "[WARNING] Threat sensors detect active ping scans from IT domain searching for SCADA host interfaces.",
+        "[EMERGENCY] Pressure sensors report irregular packet sequences. Integrity risks critical.",
+        "[ALERT] DarkSide ransom letter posted to internal company bulletin board."
+    ],
+    "mitigation_path": [
+        "vpn-session-manager terminate --user vpn_darkside",
+        "isolate-network IT_segment OT_segment",
+        "shutdown-pipeline --emergency"
+    ],
+    "incorrect_action_consequences": {
+        "enable-bridge IT OT": "Massive lateral transmission! Ransomware reaches SCADA controls, triggering physical pipeline failures.",
+        "pay-ransom": "Payment rejected by DarkSide. Decryption codes not received, leaving IT network permanently destroyed."
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "stressed",
+            "focus": "East Coast distribution metrics and logistics"
+        },
+        "Teammate": {
+            "style": "defensive",
+            "focus": "Network segment separation and SCADA locks"
+        }
+    },
+    "scenario_specific_outputs": {
+        "vpn-session-manager terminate --user vpn_darkside": {
+            "output": "VPN PROFILE SUSPENDED: Account 'vpn_darkside' disabled in active directory.\nTELEMETRY: Active connections: 0. VPN tunnel terminated successfully.",
+            "advisor": "[ALERT] Defense Lead: The entry gateway is closed. The intruder has been locked out of the perimeter network."
+        },
+        "isolate-network IT_segment OT_segment": {
+            "output": "SEGMENT ISOLATION: Severing network bridge between IT_segment and OT_segment.\nSTATUS: Active firewalls engaged. Zero traffic allowed between IT and SCADA networks.",
+            "advisor": "[ALERT] Defense Lead: Outstanding job. The IT and OT segments are completely decoupled. The SCADA systems are now fully safe."
+        },
+        "shutdown-pipeline --emergency": {
+            "output": "EMERGENCY SHUTDOWN: Transmitting drop-pressure codes to SCADA pipeline controllers.\nSTATUS: Pumps locked at 0 PSI. Flow rate: 0 bbl/hr. Pipeline halted safely.",
+            "advisor": "[ALERT] Operations Director: Safe shutdown confirmed. We have averted a potential physical pressure disaster. Tech teams can now focus on IT recovery."
+        },
+        "vpn_account_status": {
+            "output": "VPN GATEWAY SECURITY RECORD:\nPROFILE            STATUS           LAST ACCESS IP       ATTEMPTS\nvpn_darkside       ACTIVE           93.184.216.34 (RU)   1\nengineering_vpn    ACTIVE           192.168.44.12        2",
+            "advisor": "Security trace identifies 'vpn_darkside' as a decommissioned profile that was never deactivated."
+        },
+        "network_status IT_segment": {
+            "output": "IT NETWORK HEALTH LOG:\nSegment: IT_segment\nActive workstations: 120 / Devices locked: 114 (95% encryption)\nSpanning-Tree alerts: anomalous packet distribution active",
+            "advisor": "Ransomware encryption rate is extremely fast. Complete perimeter isolation is mandatory."
+        }
+    },
+    "intent_prerequisites": {
+        "restart": [],
+        "rollback": []
+    }
+}

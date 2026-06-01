@@ -1,0 +1,164 @@
+{
+    "id": "volkswagen_dieselgate",
+    "role": "comms",
+    "title": "Volkswagen Dieselgate",
+    "basedOn": "VW Emissions Scandal 2015",
+    "severity": "SEV0",
+    "storyIntro": "You are the chief PR officer. The EPA has just issued a notice of violation: the company has been using a 'defeat device' software to cheat emissions tests on 11 million diesel cars. The deception was intentional and institutional.",
+    "brief": "Regulators have extracted defeat-device code designed to cheat clean diesel EPA emissions tests. Volkswagen faces catastrophic criminal fraud charges and executive purges.",
+    "objectives": [
+        "Acknowledge the deception",
+        "Coordinate with legal and regulators",
+        "Manage executive fallout",
+        "Begin trust rebuilding"
+    ],
+    "systemsImpacted": [
+        "Corporate Integrity",
+        "Stock Price",
+        "Global Sales"
+    ],
+    "initialLogs": [
+        "[CRITICAL] EPA issues Notice of Violation",
+        "[ERROR] Stock drops 20% in one day",
+        "[WARNING] Criminal investigations opened globally"
+    ],
+    "metrics": {
+        "cpu": 10,
+        "latency": 0,
+        "errorRate": 100,
+        "requestsPerSecond": 50000
+    },
+    "agents": [
+        {
+            "name": "Manager",
+            "role": "Board of Directors",
+            "message": "The CEO has to go. We need a statement that admits fault without destroying us in court."
+        },
+        {
+            "name": "Teammate",
+            "role": "Legal Counsel",
+            "message": "We cannot deny this. The EPA has the code. We must cooperate."
+        }
+    ],
+    "timelineEvents": [
+        "EPA announcement",
+        "CEO resigns",
+        "Massive fines announced"
+    ],
+    "possibleActions": [
+        "Admit fault fully",
+        "Suspend responsible executives",
+        "Cooperate with authorities",
+        "Launch internal probe"
+    ],
+    "wrongActions": [
+        "Deny intentional cheating",
+        "Blame a few rogue engineers immediately"
+    ],
+    "winCondition": "Company admits fault, leadership changes, and rebuilding begins.",
+    "loseCondition": "Cover-up attempt leads to larger criminal indictments.",
+    "sandbox": {
+        "language": "bash",
+        "template": "#!/bin/bash\n# Crisis Commands for Volkswagen Dieselgate Incident\n# Add your commands below to manage the crisis:\n",
+        "expected_actions": [
+            "Issue an official press release admitting fault",
+            "Communicate with regulators to schedule a joint statement",
+            "Prepare executive leadership for public testimony",
+            "Initiate a global recall and fix program"
+        ]
+    },
+    "scoring": {
+        "winning_actions": [
+            "issue_press_release --message 'We admit fault and are taking full responsibility.'",
+            "cooperate_with_regulators --meeting 'Joint statement with EPA'",
+            "suspend_executives --names 'CEO, CTO'",
+            "launch_recall_program --models 'affected diesel cars'"
+        ],
+        "bad_actions": [
+            "deny_intentional_cheating --statement 'This was an isolated mistake.'",
+            "blame_engineers --names 'Rogue team members'",
+            "delay_response --days 7",
+            "contest_fines --legal_action 'File appeal'"
+        ],
+        "critical_actions": [
+            "issue_press_release --message 'We are fully cooperating with authorities.'",
+            "suspend_executives --names 'CEO, CTO'"
+        ]
+    },
+    "phases": {
+        "detection": {
+            "ai_behavior_shift": "The Manager insists on immediate containment and gathering facts from legal counsel.",
+            "metric_multiplier": 1.0
+        },
+        "investigation": {
+            "ai_behavior_shift": "The Manager pushes for transparency but warns against admitting too much too soon.",
+            "metric_multiplier": 1.2
+        },
+        "escalation": {
+            "ai_behavior_shift": "The Manager demands swift action, including potential executive suspensions.",
+            "metric_multiplier": 2.0
+        },
+        "mitigation": {
+            "ai_behavior_shift": "The Manager focuses on rebuilding trust and minimizing long-term damage.",
+            "metric_multiplier": 0.5
+        },
+        "recovery": {
+            "ai_behavior_shift": "The Manager emphasizes compliance and future-proofing corporate integrity.",
+            "metric_multiplier": 0.8
+        }
+    },
+    "evolving_logs": [
+        "[CRITICAL] Class action lawsuits filed in multiple countries",
+        "[ERROR] Stock price drops another 15% after CEO resignation",
+        "[WARNING] Consumer trust index hits all-time low",
+        "[ALERT] Government bans VW diesel sales in key markets"
+    ],
+    "mitigation_path": [
+        "issue_press_release --message 'We accept full responsibility and are cooperating fully with authorities'",
+        "suspend_executives --names 'CEO,CTO,Head_of_Engineering'",
+        "launch_recall_program --models 'affected_diesel_models' --repair 'emissions_fix'",
+        "create_compensation_fund --amount 10B --currency USD"
+    ],
+    "incorrect_action_consequences": {
+        "deny_intentional_cheating --statement 'This was a technical error'": "Regulators release internal emails proving willful deception, triggering criminal charges.",
+        "fire_whistleblowers --names 'Compliance_officers'": "Mass resignations in compliance department, triggering SEC investigation."
+    },
+    "stakeholder_personalities": {
+        "Manager": {
+            "style": "Damage control focused",
+            "communication": "Demands immediate action but warns against legal exposure",
+            "risk_tolerance": "Low"
+        },
+        "CTO": {
+            "style": "Defensive technical",
+            "communication": "Attempts to explain technical nuances but avoids responsibility",
+            "risk_tolerance": "High"
+        }
+    },
+    "scenario_specific_outputs": {
+        "check_public_sentiment": "TRUST_INDEX: 12/100\nMEDIA_TONE: 98% negative",
+        "get_regulator_status": "EPA: Active investigation\nEU: Ban enacted\nChina: Review pending",
+        "view_stock_price": "VWAGY: $28.15 (-35% from incident start)"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}

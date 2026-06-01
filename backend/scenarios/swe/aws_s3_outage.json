@@ -1,0 +1,127 @@
+{
+    "id": "aws_s3_outage",
+    "title": "US-EAST-1 S3 Outage Cascades",
+    "severity": "SEV0",
+    "service": "aws-s3",
+    "description": "High-frequency administrative command error in PR #422 removed core storage subsystem routing entries, breaking downstream applications.",
+    "brief": "US-EAST-1 storage subsystem is experiencing catastrophic volume routing failure.",
+    "root_cause": "Typo in standard maintenance execution script detached primary directory endpoints.",
+    "ideal_steps": [
+        "ack",
+        "kubectl get pods",
+        "systemctl restart nginx",
+        "resolve"
+    ],
+    "possibleActions": [
+        "ack",
+        "kubectl get pods",
+        "systemctl restart nginx",
+        "resolve"
+    ],
+    "wrongActions": [
+        "format database",
+        "drop tables"
+    ],
+    "metrics": {
+        "error_rate": 88,
+        "p95_latency": 6400,
+        "db_connections": 20,
+        "cpu": 95
+    },
+    "initial_logs": [
+        "aws-s3: HTTP 500 error accessing bucket contents",
+        "kube: pod initialization stalled due to volume mount errors"
+    ],
+    "sandbox": {
+        "language": "bash",
+        "template": "# Recovery Console\nkubectl get pods\n"
+    },
+    "scoring": {
+        "winning_actions": [
+            "ack",
+            "kubectl get pods",
+            "systemctl restart nginx"
+        ],
+        "bad_actions": [
+            "format database",
+            "drop tables"
+        ],
+        "critical_actions": [
+            "resolve"
+        ]
+    },
+    "phases": {
+        "detection": {
+            "metric_multiplier": 1.0,
+            "ai_behavior_shift": "Alerting active status logs."
+        },
+        "investigation": {
+            "metric_multiplier": 1.2,
+            "ai_behavior_shift": "Isolating connection failure matrices."
+        },
+        "escalation": {
+            "metric_multiplier": 1.6,
+            "ai_behavior_shift": "Tension peak. Management demands instant ETAs."
+        },
+        "mitigation": {
+            "metric_multiplier": 0.5,
+            "ai_behavior_shift": "Workload stability recovery noted."
+        },
+        "recovery": {
+            "metric_multiplier": 0.1,
+            "ai_behavior_shift": "Normal production baselines restored."
+        }
+    },
+    "evolving_logs": [
+        "aws-s3: Increasing number of 500 errors reported across multiple buckets.",
+        "kube: Multiple pods now failing to start due to missing volume mounts.",
+        "aws-s3: Bucket replication halted due to subsystem failures.",
+        "kube: Cluster node reaching resource limits due to stalled pods."
+    ],
+    "mitigation_path": [
+        "kubectl get pods",
+        "systemctl restart nginx",
+        "aws-s3 restore-routing-entries",
+        "resolve"
+    ],
+    "incorrect_action_consequences": {
+        "format database": "Permanent data loss across all connected services.",
+        "drop tables": "Critical customer-facing functionality disrupted."
+    },
+    "stakeholder_personalities": {
+        "manager": {
+            "style": "demanding",
+            "focus": "instant updates and ETAs"
+        },
+        "cto": {
+            "style": "technical",
+            "focus": "root cause analysis and long-term fixes"
+        }
+    },
+    "scenario_specific_outputs": {
+        "kubectl get pods": "NAME READY STATUS\nnginx 0/1 CrashLoopBackOff\napp-s3 0/1 Init:Error",
+        "systemctl restart nginx": "Restarting nginx: [FAILED]",
+        "aws-s3 restore-routing-entries": "Routing entries restored: 75%\nBuckets reconnected"
+    },
+    "intent_prerequisites": {
+        "restart": [
+            "drain",
+            "cordon",
+            "throttle",
+            "block"
+        ],
+        "rollback": [
+            "drain",
+            "cordon",
+            "throttle"
+        ],
+        "failover": [
+            "lock",
+            "throttle"
+        ],
+        "kill": [
+            "isolate",
+            "block"
+        ]
+    }
+}
