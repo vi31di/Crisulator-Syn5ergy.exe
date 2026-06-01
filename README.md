@@ -257,7 +257,10 @@ Planned future integrations include:
 **Team Name:** Syn5ergy.exe
 
 Built for experiential learning, professional readiness, and crisis management education.
-Demo Video: https://drive.google.com/file/d/1x0Uo0oxuwsMpAWkbZJT68HE_8TnQ4eHM/view?usp=drive_link
+
+---
+#Demo Video: 
+https://drive.google.com/file/d/1x0Uo0oxuwsMpAWkbZJT68HE_8TnQ4eHM/view?usp=drive_link
 ---
 
 # Mission
