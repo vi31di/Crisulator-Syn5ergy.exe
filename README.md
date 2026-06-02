@@ -14,6 +14,18 @@ Users can take on one of three professional roles:
 
 Each role experiences unique workflows, tools, stakeholders, and success criteria.
 
+
+#Website: 
+https://syn5ergy-exe-crisulator.vercel.app/
+
+#Backend API:
+https://syn5ergy-exe-api.onrender.com
+
+---
+#Demo Video: 
+
+https://drive.google.com/file/d/1x0Uo0oxuwsMpAWkbZJT68HE_8TnQ4eHM/view?usp=drive_link
+
 ---
 
 # The Problem
@@ -258,9 +270,6 @@ Planned future integrations include:
 
 Built for experiential learning, professional readiness, and crisis management education.
 
----
-#Demo Video: 
-https://drive.google.com/file/d/1x0Uo0oxuwsMpAWkbZJT68HE_8TnQ4eHM/view?usp=drive_link
 ---
 
 # Mission
