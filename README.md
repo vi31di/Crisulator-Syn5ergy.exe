@@ -4,7 +4,7 @@
 
 Crisulator is an immersive crisis-response simulation platform that helps students and early-career professionals gain hands-on experience handling real-world incidents before they encounter them in industry.
 
-Instead of learning incident response through slides, quizzes, or theory, users are placed directly into realistic crisis scenarios where every decision has consequences.
+Contrast to the theoretica knowledge, users are placed directly into realistic crisis scenarios where every decision has consequences.
 
 Users can take on one of three professional roles:
 
