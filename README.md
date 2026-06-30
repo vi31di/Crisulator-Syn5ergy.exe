@@ -138,10 +138,6 @@ Available tools:
 
 # Architectural Specifications & DSA Backbone
 
-This document details the software architecture, core computer science (CS) fundamentals, and data structures & algorithms (DSA) that serve as the backbone of the Crisulator crisis-response simulation engine.
-
----
-
 ## 1. Architectural Overview: The Hybrid Bounded Sandbox
 
 Crisulator is built using a decoupled **Hybrid Bounded Sandbox** architecture. Rather than relying on a single, non-deterministic Large Language Model (LLM) to drive the game logic, the engine separates the **State & Scoring Engine** (deterministic) from the **Generative Feedback Layer** (probabilistic/AI).
