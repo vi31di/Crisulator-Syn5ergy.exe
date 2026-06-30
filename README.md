@@ -213,8 +213,7 @@ The command parser performs high-speed synonym matches without using LLMs.
 ### D. Deterministic PRNG Seed Hashing
 To prevent question repetition across users without saving massive state mappings in memory, the system uses seed hashing.
 *   **File**: [question_variants.py]
-*   **Implementation**: A cryptographic hash function (MD5) generates a seed from session values:
-    $$\text{Seed} = \text{MD5}(\text{room\_id} + \text{user\_id} + \text{node\_id})$$
+*   **Implementation**: A cryptographic hash function (MD5) generates a seed from session values
     This seed initializes a Pseudo-Random Number Generator (`random.Random(seed)`), selecting a prompt variant. This ensures $O(1)$ memory complexity and guarantees that a player sees the same questions on replay, but different players see unique variations.
 
 ---
